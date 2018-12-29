@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Read {{ title }}{% endblock %}
+
+{% block body %}
+<h1>{{ title }}</h1>
+
+<div>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, adipisci aliquid, blanditiis, debitis dolor eligendi enim explicabo harum incidunt inventore iste nam natus officia officiis quos ratione rerum similique veritatis.
+  </p>
+  <p>
+    Accusantium amet assumenda culpa, delectus dolorem doloremque dolores explicabo id in ipsam itaque, molestiae nesciunt porro quos ratione sint temporibus veniam vitae.
+  </p>
+  <p>
+    Atque, dicta, non? Ab adipisci assumenda corporis, deleniti eaque earum fuga, iste itaque laudantium modi quae, quaerat quia soluta unde ut vero.
+  </p>
+</div>
+
+<h2>Comments ({{ comments|length }})</h2>
+
+<ul>
+  {% for comment in comments %}
+    <li>{{ comment }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
