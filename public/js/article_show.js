@@ -5,6 +5,12 @@ $(document).ready(function () {
 
     $link.toggleClass('fa-heart-o').toggleClass('fa-heart');
 
-    $('.js-like-article-count').html('TEST');
+    $.ajax({
+      method: 'post',
+      url: $link.attr('href')
+    }).done(function (data) {
+      $('.js-like-article-count').html(data.hearts);
+    })
+
   })
 });
