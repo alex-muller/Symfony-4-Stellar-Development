@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use Michelf\MarkdownInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +24,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/news/{slug}", name="article_show")
      */
-    public function show($slug)
+    public function show($slug, MarkdownInterface $markdown)
     {
         $comments = [
             'Accusamus, est, facilis. A alias autem debitis doloremque earum ',
@@ -31,12 +32,30 @@ class ArticleController extends AbstractController
             'Ab adipisci assumenda corporis, deleniti eaque earum fuga, iste itaque laudantium modi quae, quaerat quia soluta unde ut vero.',
         ];
 
+        $articleContent = <<<EOF
+Lorem **ipsum dolor** sit amet, consectetur adipiscing elit. Fusce vitae nisi auctor, consequat ante non, auctor ex. 
+[Donec eget](https://baconipsum.com) orci feugiat quam cursus ultricies eget et justo. Suspendisse vulputate nisi sed lorem tempor, hendrerit 
+gravida felis lacinia. Nulla facilisi. Nulla varius porttitor scelerisque. Nullam eget condimentum est. Pellentesque
+hendrerit varius dictum. Aenean eget nunc porta, volutpat massa et, semper orci.
+
+Pellentesque efficitur augue eu sem placerat eleifend. Aenean a fermentum elit. Proin eu lacinia ex, a aliquet ipsum. 
+Cras lobortis felis justo, in rutrum ligula commodo non. Donec congue tellus ac porta ultricies. Morbi convallis 
+rutrum neque quis iaculis. Vestibulum lobortis mauris non pulvinar blandit.
+
+Phasellus interdum ipsum non congue sollicitudin. Duis ut ornare nunc. Proin vel varius nunc, non ullamcorper mauris. 
+Integer suscipit ante fermentum enim mollis dictum. Nunc euismod fermentum elit sit amet ornare. Quisque varius libero 
+nec est laoreet dapibus. Fusce vehicula augue nisi, id aliquet diam scelerisque sit amet. Maecenas quis odio nulla.
+EOF;
+
+        $articleContent = $markdown->transform($articleContent);
+
         return $this->render(
             'article/show.html.twig',
             [
-                'title'    => ucwords(str_replace('-', ' ', $slug)),
-                'comments' => $comments,
-                'slug'     => $slug,
+                'title'          => ucwords(str_replace('-', ' ', $slug)),
+                'articleContent' => $articleContent,
+                'comments'       => $comments,
+                'slug'           => $slug,
             ]
         );
     }
